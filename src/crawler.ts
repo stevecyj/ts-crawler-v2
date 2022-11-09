@@ -27,16 +27,22 @@ class Crawler {
       time: new Date().getTime(),
       data: courseInfos,
     };
-    console.log(result);
+    return result;
   }
 
   async getRawHtml() {
     const result = await superagent.get(this.url);
-    this.getCourseInfo(result.text);
+    return result.text;
+  }
+
+  async initSpiderProcess() {
+    const html = await this.getRawHtml();
+    const result = this.getCourseInfo(html);
+    console.log(result);
   }
 
   constructor() {
-    this.getRawHtml();
+    this.initSpiderProcess();
   }
 }
 
