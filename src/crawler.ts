@@ -20,6 +20,7 @@ interface Content {
 class Crawler {
   private secret = 'secretKey';
   private url = `http://www.dell-lee.com/typescript/demo.html?secret=${this.secret}`;
+  private filePath = path.resolve(__dirname, '../data/course.json');
 
   getCourseInfo(html: string) {
     const $ = cheerio.load(html);
@@ -46,21 +47,22 @@ class Crawler {
   }
 
   generateJsonContent(courseInfo: CourseResult) {
-    const filePath = path.resolve(__dirname, '../data/course.json');
     let fileContent: Content = {};
-    if (fs.existsSync(filePath)) {
-      fileContent = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    if (fs.existsSync(this.filePath)) {
+      fileContent = JSON.parse(fs.readFileSync(this.filePath, 'utf-8'));
     }
     fileContent[courseInfo.time] = courseInfo.data;
     return fileContent;
   }
 
+  writeFile(fileContent: Content) {
+    fs.writeFileSync(this.filePath, JSON.stringify(fileContent));
+  }
   async initSpiderProcess() {
-    const filePath = path.resolve(__dirname, '../data/course.json');
     const html = await this.getRawHtml();
     const courseInfo = this.getCourseInfo(html);
     const fileContent = this.generateJsonContent(courseInfo);
-    fs.writeFileSync(filePath, JSON.stringify(fileContent));
+    this.writeFile(fileContent);
   }
 
   constructor() {
