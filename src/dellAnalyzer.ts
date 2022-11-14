@@ -49,6 +49,6 @@ export default class DellAnalyzer {
   public analyze(html: string, filePath: string) {
     const courseInfo = this.getCourseInfo(html);
     const fileContent = this.generateJsonContent(courseInfo, filePath);
-    return fileContent;
+    return JSON.stringify(fileContent);
   }
 }
