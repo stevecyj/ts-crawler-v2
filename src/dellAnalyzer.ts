@@ -1,11 +1,20 @@
+import fs from 'fs';
+import path from 'path';
+import cheerio from 'cheerio';
+
 interface Course {
   title: string;
   count: number;
 }
 
-import fs from 'fs';
-import path from 'path';
-import cheerio from 'cheerio';
+interface CourseResult {
+  time: number;
+  data: Course[];
+}
+
+interface Content {
+  [propName: number]: Course[];
+}
 
 export default class DellAnalyzer {
   constructor() {}
@@ -28,18 +37,18 @@ export default class DellAnalyzer {
     return result;
   }
 
-  generateJsonContent(courseInfo: CourseResult) {
+  generateJsonContent(courseInfo: CourseResult, filePath: string) {
     let fileContent: Content = {};
-    if (fs.existsSync(this.filePath)) {
-      fileContent = JSON.parse(fs.readFileSync(this.filePath, 'utf-8'));
+    if (fs.existsSync(filePath)) {
+      fileContent = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
     }
     fileContent[courseInfo.time] = courseInfo.data;
     return fileContent;
   }
 
-  public analyze(html: string) {
+  public analyze(html: string, filePath: string) {
     const courseInfo = this.getCourseInfo(html);
-    const fileContent = this.generateJsonContent(courseInfo);
+    const fileContent = this.generateJsonContent(courseInfo, filePath);
     return fileContent;
   }
 }

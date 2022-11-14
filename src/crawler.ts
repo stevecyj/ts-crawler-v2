@@ -3,15 +3,6 @@ import path from 'path';
 import superagent from 'superagent';
 import DellAnalyzer from './dellAnalyzer';
 
-interface CourseResult {
-  time: number;
-  data: Course[];
-}
-
-interface Content {
-  [propName: number]: Course[];
-}
-
 class Crawler {
   private secret = 'secretKey';
   private url = `http://www.dell-lee.com/typescript/demo.html?secret=${this.secret}`;
@@ -22,13 +13,13 @@ class Crawler {
     return result.text;
   }
 
-  writeFile(fileContent: Content) {
+  writeFile(fileContent: string) {
     fs.writeFileSync(this.filePath, JSON.stringify(fileContent));
   }
 
   async initSpiderProcess() {
     const html = await this.getRawHtml();
-    const fileContent = this.analyzer().analyze(html);
+    const fileContent = this.analyzer.analyze(html, this.filePath);
     this.writeFile(fileContent);
   }
 
