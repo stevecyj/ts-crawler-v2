@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import superagent from 'superagent';
-import DellAnalyzer from './dellAnalyzer';
+import LeeAnalyzer from './leeAnalyzer';
 
 export interface Analyzer {
   analyze: (html: string, filePath: string) => string;
@@ -32,5 +32,5 @@ class Crawler {
 
 const secret = 'secretKey';
 const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`;
-const analyzer = new DellAnalyzer();
+const analyzer = new LeeAnalyzer();
 new Crawler(url, analyzer);
