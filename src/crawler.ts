@@ -3,7 +3,7 @@ import path from 'path';
 import superagent from 'superagent';
 import DellAnalyzer from './dellAnalyzer';
 
-interface Analyzer {
+export interface Analyzer {
   analyze: (html: string, filePath: string) => string;
 }
 

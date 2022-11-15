@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import cheerio from 'cheerio';
 
+import { Analyzer } from './crawler';
+
 interface Course {
   title: string;
   count: number;
@@ -16,7 +18,7 @@ interface Content {
   [propName: number]: Course[];
 }
 
-export default class DellAnalyzer {
+export default class DellAnalyzer implements Analyzer {
   constructor() {}
   private getCourseInfo(html: string) {
     const $ = cheerio.load(html);
