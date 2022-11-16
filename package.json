@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node ./src/crawler.ts",
-    "build": "tsc"
+    "build": "tsc -w"
   },
   "author": "",
   "license": "ISC",
