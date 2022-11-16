@@ -35,3 +35,5 @@ const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`;
 // const analyzer = new DellAnalyzer();
 const analyzer = DellAnalyzer.getInstance(); // 改成單例
 new Crawler(url, analyzer);
+
+const teachername = 'dell';
