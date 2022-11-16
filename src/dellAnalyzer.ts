@@ -19,7 +19,21 @@ interface Content {
 }
 
 export default class DellAnalyzer implements Analyzer {
-  constructor() {}
+  /**
+   * class 不能被外部實例化
+   */
+  private constructor() {}
+
+  // 建立靜態屬性
+  static instance: DellAnalyzer;
+
+  // class 只能在內部被 new
+  static getInstance() {
+    if (!DellAnalyzer.instance) {
+      DellAnalyzer.instance = new DellAnalyzer();
+    }
+    return DellAnalyzer.instance;
+  }
   private getCourseInfo(html: string) {
     const $ = cheerio.load(html);
     const courseItems = $('.course-item');
@@ -39,7 +53,10 @@ export default class DellAnalyzer implements Analyzer {
     return result;
   }
 
-  generateJsonContent(courseInfo: CourseResult, filePath: string) {
+  /**
+   * 只有在內部被調用的方法
+   */
+  private generateJsonContent(courseInfo: CourseResult, filePath: string) {
     let fileContent: Content = {};
     if (fs.existsSync(filePath)) {
       fileContent = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
